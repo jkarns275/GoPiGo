@@ -436,9 +436,14 @@ def corrected_us_dist(pin):
 
 def read_motor_speed():
 	"""
-	Returns the motor speeds of each of the motors.
+	Returns the motor speeds of each of the motors. The first entry in the
+	returned list is the right motor speed and the second entry is the left
+	motor speed.
 	
-	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	[right, left]
+	
+	Larger values indicate faster motor speeds. Zero is no movement. Max
+	speed is 255.
 	"""
 	write_i2c_block(address,read_motor_speed_cmd+[unused,unused,unused])
 	try:
