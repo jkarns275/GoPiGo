@@ -435,6 +435,11 @@ def corrected_us_dist(pin):
 	return int(corrected_data)
 
 def read_motor_speed():
+	"""
+	Returns the motor speeds of each of the motors.
+	
+	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	"""
 	write_i2c_block(address,read_motor_speed_cmd+[unused,unused,unused])
 	try:
 		s1=bus.read_byte(address)
@@ -557,6 +562,9 @@ def disable_servo():
 #	arg:
 #		speed-> 0-255
 def set_left_speed(speed):
+	"""
+	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	"""
 	if speed >255:
 		speed =255
 	elif speed <0:
@@ -567,6 +575,9 @@ def set_left_speed(speed):
 #	arg:
 #		speed-> 0-255
 def set_right_speed(speed):
+	"""
+	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	"""
 	if speed >255:
 		speed =255
 	elif speed <0:
@@ -577,6 +588,9 @@ def set_right_speed(speed):
 #	arg:
 #		speed-> 0-255
 def set_speed(speed):
+	"""
+	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	"""
 	if speed >255:
 		speed =255
 	elif speed <0:
