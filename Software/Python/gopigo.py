@@ -405,6 +405,18 @@ def brd_rev():
 #		pin -> 	Pin number on which the US sensor is connected
 #	return:		distance in cm
 def us_dist(pin):
+	"""
+	Returns the distance between the rover and the nearest obstacle.
+	
+	Should be called with 15 as its argument as 15 is the pin number for the USS.
+	
+	us_dist(15)
+	
+	It is a good idea to set this value to a constant like follows.
+	
+	USS = 15
+	us_dist(USS)
+	"""
 	write_i2c_block(address,us_cmd+[pin,0,0])
 	time.sleep(.08)
 	try:
@@ -595,6 +607,8 @@ def set_right_speed(speed):
 def set_speed(speed):
 	"""
 	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	
+	Note that the rover will not move unless you have called fwd()
 	"""
 	if speed >255:
 		speed =255
