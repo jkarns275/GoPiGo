@@ -535,6 +535,16 @@ def enc_tgt(m1,m2,target):
 #		motor -> 	0 for motor1 and 1 for motor2
 #	return:		distance in cm
 def enc_read(motor):
+	"""
+	Returns the number of total ticks in cm distance (?) that the given motor has undergone. I'm not sure if
+	this is the number of ticks since the rover started, or since some other time.
+	
+	0 = left motor
+	1 = right motor
+	
+	enc_read(0) # left
+	end_read(1) # right
+	"""
 	write_i2c_block(address,enc_read_cmd+[motor,0,0])
 	time.sleep(.08)
 	try:
