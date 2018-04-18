@@ -148,6 +148,8 @@ public final class Gopigo {
       e.printStackTrace();
     } catch (InterruptedException e) {
       e.printStackTrace();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
 
     voltageTimer = new Timer();

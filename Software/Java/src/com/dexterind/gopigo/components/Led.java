@@ -107,8 +107,6 @@ public class Led {
       pin = id == LEFT ? left_pin : right_pin;
   } catch (IOException e) {
     e.printStackTrace();
-  } catch (InterruptedException e) {
-    e.printStackTrace();
   }
   }
 

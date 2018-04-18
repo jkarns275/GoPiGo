@@ -77,26 +77,31 @@ public class Board {
    */
   private Debug debug;
 
-  public Board() throws IOException, InterruptedException {
-    int busId;
+  public Board() throws IOException {
+    try {
+      int busId;
 
-    String type = SystemInfo.getBoardType().name();
+      String type = SystemInfo.getBoardType().name();
 
-    if (type.indexOf("ModelA") > 0) {
-      busId = I2CBus.BUS_0;
-    } else {
-      busId = I2CBus.BUS_1;
+      if (type.indexOf("ModelA") > 0) {
+        busId = I2CBus.BUS_0;
+      } else {
+        busId = I2CBus.BUS_1;
+      }
+
+      final I2CBus bus = I2CFactory.getInstance(busId);
+      device = bus.getDevice(ADDRESS);
+    } catch (Exception e) {
+      throw new IOException("Failed to instantiate Board");
     }
-
-    final I2CBus bus = I2CFactory.getInstance(busId);
-    device = bus.getDevice(ADDRESS);
   }
+
 
   /**
    * Provides a global point of access to the Board instance.
    * @return  the <code>Board</code> instance.
    */
-  public static Board getInstance() throws IOException, InterruptedException {
+  public static Board getInstance() throws IOException {
     if(instance == null) {
       instance = new Board();
     }
@@ -130,12 +135,16 @@ public class Board {
    * @throws IOException
    */
   public byte[] readI2c(int numberOfBytes) throws IOException {
-    if (Gopigo.getInstance().isHalt()) {
-      Gopigo.getInstance().onHalt();
+    try {
+      if (Gopigo.getInstance().isHalt()) {
+        Gopigo.getInstance().onHalt();
+      }
+      byte[] buffer = new byte[numberOfBytes];
+      device.read(1, buffer, 0, buffer.length);
+      return buffer;
+    } catch (Exception e) {
+      throw new IOException("Failed to readI2c");
     }
-    byte[] buffer = new byte[numberOfBytes];
-    device.read(1, buffer, 0, buffer.length);
-    return buffer;
   }
 
   /**
