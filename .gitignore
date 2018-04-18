@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+/Software/Java/pi4j/*
 
 # External tool builders
 .externalToolBuilders/
