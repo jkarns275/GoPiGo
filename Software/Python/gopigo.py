@@ -307,6 +307,17 @@ def trim_read():
 
 #Write the trim value to EEPROM, where -100=0 and 100=200
 def trim_write(value):
+	"""
+	Set the trim value? Where trim is the ratio of power to apply to each
+	wheel to correct for bad hardware? [citation needed]
+	
+	0 is even power to both wheels
+	
+	Positive values favor the right wheel
+	Negative values favor the left wheel
+	
+	Value must be in range -100 to 100
+	"""
 	if value>100:
 		value=100
 	elif value<-100:
