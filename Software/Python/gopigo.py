@@ -307,6 +307,17 @@ def trim_read():
 
 #Write the trim value to EEPROM, where -100=0 and 100=200
 def trim_write(value):
+	"""
+	Set the trim value? Where trim is the ratio of power to apply to each
+	wheel to correct for bad hardware? [citation needed]
+	
+	0 is even power to both wheels
+	
+	Positive values favor the right wheel
+	Negative values favor the left wheel
+	
+	Value must be in range -100 to 100
+	"""
 	if value>100:
 		value=100
 	elif value<-100:
@@ -405,6 +416,18 @@ def brd_rev():
 #		pin -> 	Pin number on which the US sensor is connected
 #	return:		distance in cm
 def us_dist(pin):
+	"""
+	Returns the distance between the rover and the nearest obstacle.
+	
+	Should be called with 15 as its argument as 15 is the pin number for the USS.
+	
+	us_dist(15)
+	
+	It is a good idea to set this value to a constant like follows.
+	
+	USS = 15
+	us_dist(USS)
+	"""
 	write_i2c_block(address,us_cmd+[pin,0,0])
 	time.sleep(.08)
 	try:
@@ -435,6 +458,16 @@ def corrected_us_dist(pin):
 	return int(corrected_data)
 
 def read_motor_speed():
+	"""
+	Returns the motor speeds of each of the motors. The first entry in the
+	returned list is the right motor speed and the second entry is the left
+	motor speed.
+	
+	[right, left]
+	
+	Larger values indicate faster motor speeds. Zero is no movement. Max
+	speed is 255.
+	"""
 	write_i2c_block(address,read_motor_speed_cmd+[unused,unused,unused])
 	try:
 		s1=bus.read_byte(address)
@@ -513,6 +546,16 @@ def enc_tgt(m1,m2,target):
 #		motor -> 	0 for motor1 and 1 for motor2
 #	return:		distance in cm
 def enc_read(motor):
+	"""
+	Returns the number of total ticks in cm distance (?) that the given motor has undergone. I'm not sure if
+	this is the number of ticks since the rover started, or since some other time.
+	
+	0 = left motor
+	1 = right motor
+	
+	enc_read(0) # left
+	end_read(1) # right
+	"""
 	write_i2c_block(address,enc_read_cmd+[motor,0,0])
 	time.sleep(.08)
 	try:
@@ -557,6 +600,9 @@ def disable_servo():
 #	arg:
 #		speed-> 0-255
 def set_left_speed(speed):
+	"""
+	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	"""
 	if speed >255:
 		speed =255
 	elif speed <0:
@@ -567,6 +613,9 @@ def set_left_speed(speed):
 #	arg:
 #		speed-> 0-255
 def set_right_speed(speed):
+	"""
+	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	"""
 	if speed >255:
 		speed =255
 	elif speed <0:
@@ -577,6 +626,11 @@ def set_right_speed(speed):
 #	arg:
 #		speed-> 0-255
 def set_speed(speed):
+	"""
+	Larger values indicate faster motor speeds. Zero is no movement. Max speed is 255.
+	
+	Note that the rover will not move unless you have called fwd()
+	"""
 	if speed >255:
 		speed =255
 	elif speed <0:
